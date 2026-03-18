@@ -1,3 +1,19 @@
 [![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/fund.html) [![Build Status](https://github.com/hmlendea/nucitext.conversion/actions/workflows/dotnet.yml/badge.svg)](https://github.com/hmlendea/nucitext.conversion/actions/workflows/dotnet.yml)
 
-# nucitext.conversion
+# NuciText.Conversion
+
+.NET C# library for text conversions.
+
+# Installation
+
+[![Get it from NuGet](https://raw.githubusercontent.com/hmlendea/readme-assets/master/badges/stores/nuget.png)](https://nuget.org/packages/NuciText.Conversion)
+
+**.NET CLI**:
+```bash
+dotnet add package NuciText.Conversion
+```
+
+**Package Manager**:
+```powershell
+Install-Package NuciText.Conversion
+```
