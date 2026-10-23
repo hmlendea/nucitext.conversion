@@ -4,12 +4,12 @@ using NuciText.Conversion;
 
 namespace NuciText.Conversion.UnitTests
 {
-    public class NameNormaliserTests
+    public sealed class NuciTextConverterTests
     {
-        const string StringOfVariousCharacters = "​‌‍*[]`°´·ʹ–‘’”‡′″꞉＝̷̧̲̬̯̣̤̥̦̮̰̓́̀̆̂̌̊̈̋̃̇̄̍̒̐͘͡ᶻźŹžŽżŻẓẒƶƵʐǯþÞƿǷʔˀʼʾꞌʿΆγθΊΐΌΎχаАәёіІїјЈоџьᐋ";
-        const string Windows1252Characters = "_-–—,;:!¡?¿.…·'‘’‚‹›\"“”„«»()[]{}§¶@*/\\&#%‰†‡•`´˜^¯¨¸ˆ°©®+±÷×<=>¬|¦~¤¢$£¥€01¹½¼2²3³¾456789aAªáÁàÀâÂåÅäÄãÃæÆbBcCçÇdDðÐeEéÉèÈêÊëËfFƒgGhHiIíÍìÌîÎïÏjJkKlLmMnNñÑoOºóÓòÒôÔöÖõÕøØœŒpPqQrRsSšŠßtT™uUúÚùÙûÛüÜvVwWxXyYýÝÿŸzZžŽþÞµ";
+        private const string StringOfVariousCharacters = "​‌‍*[]`°´·ʹ–‘’”‡′″꞉＝̷̧̲̬̯̣̤̥̦̮̰̓́̀̆̂̌̊̈̋̃̇̄̍̒̐͘͡ᶻźŹžŽżŻẓẒƶƵʐǯþÞƿǷʔˀʼʾꞌʿΆγθΊΐΌΎχаАәёіІїјЈоџьᐋ";
+        private const string Windows1252Characters = "_-–—,;:!¡?¿.…·'‘’‚‹›\"“”„«»()[]{}§¶@*/\\&#%‰†‡•`´˜^¯¨¸ˆ°©®+±÷×<=>¬|¦~¤¢$£¥€01¹½¼2²3³¾456789aAªáÁàÀâÂåÅäÄãÃæÆbBcCçÇdDðÐeEéÉèÈêÊëËfFƒgGhHiIíÍìÌîÎïÏjJkKlLmMnNñÑoOºóÓòÒôÔöÕøØœŒpPqQrRsSšŠßtT™uUúÚùÙûÛüÜvVwWxXyYýÝÿŸzZžŽþÞµ";
 
-        private NuciTextConverter converter;
+        private NuciTextConverter converter = new();
 
         [SetUp]
         public void SetUp() => converter = new();
@@ -152,19 +152,20 @@ namespace NuciText.Conversion.UnitTests
         [Test]
         [TestCase(StringOfVariousCharacters)]
         public void WhenNormalisingForWindow1252_ReturnsTheNameWithoutCharsOutsideCharset(string name)
-            => TestCharsNotOutsideSet(converter.ToWindows1252(name), Windows1252Characters);
+            => AssertCharsAreWithinCharset(converter.ToWindows1252(name), Windows1252Characters);
 
-        static void TestCharsNotOutsideSet(string str, string charset)
+        private static void AssertCharsAreWithinCharset(string text, string charset)
         {
             string actualCharset = charset + " ";
-            string charsOutisdeCharset = string.Concat(str.Where(c => !actualCharset.Contains(c)));
+            string charactersOutsideCharset = string.Concat(
+                text.Where(character => !actualCharset.Contains(character)));
 
-            if (string.IsNullOrWhiteSpace(charsOutisdeCharset))
+            if (string.IsNullOrWhiteSpace(charactersOutsideCharset))
             {
-                charsOutisdeCharset = string.Empty;
+                charactersOutsideCharset = string.Empty;
             }
 
-            Assert.That(charsOutisdeCharset, Is.Empty);
+            Assert.That(charactersOutsideCharset, Is.Empty);
         }
     }
 }

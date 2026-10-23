@@ -10,9 +10,9 @@ namespace NuciText.Conversion
     /// </summary>
     public sealed class NuciTextConverter : INuciTextConverter
     {
-        readonly ConcurrentDictionary<string, string> windows1252cache;
+        private readonly ConcurrentDictionary<string, string> windows1252Cache;
 
-        readonly Dictionary<char, string> CommonCharacterMappings = new()
+        private static readonly Dictionary<char, string> commonCharacterMappings = new()
         {
             { 'А', "A" },
             { 'Α', "A" },
@@ -182,7 +182,7 @@ namespace NuciText.Conversion
             { 'ổ', "ô" },
         };
 
-        readonly Dictionary<char, string> Windows1252CharacterMappings = new()
+        private static readonly Dictionary<char, string> windows1252CharacterMappings = new()
         {
             { 'Ǣ', "Æ" },
             { 'Ạ', "A" }, { 'Ə', "A" },
@@ -293,10 +293,7 @@ namespace NuciText.Conversion
             { 'ż', "ž" },
         };
 
-        public NuciTextConverter()
-        {
-            windows1252cache = new ConcurrentDictionary<string, string>();
-        }
+        public NuciTextConverter() => windows1252Cache = new();
 
         /// <summary>
         /// Converts the given text to Windows-1252 encoding, replacing characters that are not supported in that encoding with their closest equivalents.
@@ -310,9 +307,9 @@ namespace NuciText.Conversion
                 return string.Empty;
             }
 
-            if (windows1252cache.TryGetValue(text, out string value))
+            if (windows1252Cache.ContainsKey(text))
             {
-                return value;
+                return windows1252Cache[text];
             }
 
             string processedName = text
@@ -324,7 +321,7 @@ namespace NuciText.Conversion
             // Crusader Kings II
             processedName = processedName.Replace("āẗ", "āh");
 
-            processedName = ReplaceUsingMap(processedName, Windows1252CharacterMappings);
+            processedName = ReplaceUsingMap(processedName, windows1252CharacterMappings);
 
             processedName = Regex.Replace(processedName, "[Ġ]([^h])", "Gh$1");
             processedName = Regex.Replace(processedName, "[a]*[ẗ]", "ah");
@@ -338,18 +335,18 @@ namespace NuciText.Conversion
                 .Replace("T̈", "T")
                 .Replace("ŏ̤", "õ"); // Maybe replace with "eo"
 
-            windows1252cache.TryAdd(text, processedName);
+            windows1252Cache.TryAdd(text, processedName);
 
             return processedName;
         }
 
-        private string ApplyCommonReplacements(string name)
+        private static string ApplyCommonReplacements(string name)
         {
             string processedName = name;
 
             processedName = Regex.Replace(processedName, "\\bɸ", "P");
 
-            processedName = ReplaceUsingMap(processedName, CommonCharacterMappings);
+            processedName = ReplaceUsingMap(processedName, commonCharacterMappings);
 
             processedName = processedName
                 .Replace("D‍", "D")
@@ -502,26 +499,21 @@ namespace NuciText.Conversion
 
         private static string ReplaceUsingMap(string input, Dictionary<char, string> map)
         {
-            if (input is null)
-            {
-                return null;
-            }
+            StringBuilder stringBuilder = new(input.Length);
 
-            StringBuilder sb = new(input.Length);
-
-            foreach (char c in input)
+            foreach (char character in input)
             {
-                if (map.TryGetValue(c, out string replacement))
+                if (map.ContainsKey(character))
                 {
-                    sb.Append(replacement);
+                    stringBuilder.Append(map[character]);
                 }
                 else
                 {
-                    sb.Append(c);
+                    stringBuilder.Append(character);
                 }
             }
 
-            return sb.ToString();
+            return stringBuilder.ToString();
         }
     }
 }
