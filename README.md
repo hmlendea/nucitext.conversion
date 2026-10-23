@@ -44,3 +44,9 @@ See the [Code of Conduct](./CODE_OF_CONDUCT.md) for the standards of conduct exp
 NuciText.Conversion is a self-contained .NET text conversion library with no data collection, telemetry, or external integrations. All operations are performed in memory on input strings provided by the caller. No data is persisted, transmitted, or shared.
 
 For the detailed description of how the application handles privacy and personal data, see [PRIVACY.md](./PRIVACY.md).
+
+## 🔒 Security
+
+NuciText.Conversion follows a coordinated disclosure policy. Only the latest version distributed via NuGet receives security maintenance.
+
+For the full security policy, supported versions, and vulnerability reporting process, see [SECURITY.md](./SECURITY.md).
