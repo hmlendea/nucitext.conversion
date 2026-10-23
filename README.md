@@ -50,3 +50,9 @@ For the detailed description of how the application handles privacy and personal
 NuciText.Conversion follows a coordinated disclosure policy. Only the latest version distributed via NuGet receives security maintenance.
 
 For the full security policy, supported versions, and vulnerability reporting process, see [SECURITY.md](./SECURITY.md).
+
+## 🏗️ Architecture
+
+NuciText.Conversion is an in-process .NET library with a public converter interface, an ordered text-transformation pipeline, and an instance-scoped in-memory result cache.
+
+See the [architecture documentation](./ARCHITECTURE.md) for the system context, principal components, runtime flows, ownership boundaries, dependencies, constraints, and extension points.
