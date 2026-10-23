@@ -84,6 +84,10 @@ dotnet test --filter FullyQualifiedName~NuciText.Conversion.UnitTests.NameNormal
 - Follow the documentation style guide.
 - Preview changes locally if possible.
 
+## 📋 Code of Conduct
+
+This project follows the [Code of Conduct](./CODE_OF_CONDUCT.md).
+
 ## 📄 License
 
 By contributing, you agree that your contributions will be licensed under the [GNU General Public License v3.0 or later](./LICENSE).
