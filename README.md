@@ -56,3 +56,20 @@ For the full security policy, supported versions, and vulnerability reporting pr
 NuciText.Conversion is an in-process .NET library with a public converter interface, an ordered text-transformation pipeline, and an instance-scoped in-memory result cache.
 
 See the [architecture documentation](./ARCHITECTURE.md) for the system context, principal components, runtime flows, ownership boundaries, dependencies, constraints, and extension points.
+
+## 📚 Documentation
+
+The [repository knowledge base](./docs/INDEX.md) documents the implementation, ordered conversion rules, cache lifecycle, verification boundaries, and maintenance guidance. It complements the root architecture rather than duplicating it.
+
+| Resource | Description |
+|----------|-------------|
+| [Documentation index](./docs/INDEX.md) | Complete catalogue, navigation, evidence baseline, and review metadata |
+| [Quick start](./docs/quick-start.md) | Local setup and a first conversion |
+| [Conversion flow](./docs/flows/text-conversion.md) | Ordered transformations, alternate paths, and causal dependencies |
+| [Testing](./docs/testing.md) | Verified test results and coverage limitations |
+| [Change guide](./docs/change-guide.md) | Safe rule, cache, and public-contract modifications |
+| [Open questions](./docs/ambiguities-and-open-questions.md) | Source-derived edge cases and existing documentation discrepancies |
+
+## 🌐 API Reference
+
+See the [public API reference](./docs/api-reference/INDEX.md) for the synchronous converter contract, examples, and limitations. This library has no HTTP controllers or endpoints. It returns a Unicode string, not Windows-1252 bytes, and does not validate universal Windows-1252 representability.
