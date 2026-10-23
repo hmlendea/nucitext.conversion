@@ -38,3 +38,9 @@ See the [contributing guidelines](./CONTRIBUTING.md) for details on how to repor
 ## 📜 Code of Conduct
 
 See the [Code of Conduct](./CODE_OF_CONDUCT.md) for the standards of conduct expected in all project spaces.
+
+## 🛡️ Privacy and Data
+
+NuciText.Conversion is a self-contained .NET text conversion library with no data collection, telemetry, or external integrations. All operations are performed in memory on input strings provided by the caller. No data is persisted, transmitted, or shared.
+
+For the detailed description of how the application handles privacy and personal data, see [PRIVACY.md](./PRIVACY.md).
