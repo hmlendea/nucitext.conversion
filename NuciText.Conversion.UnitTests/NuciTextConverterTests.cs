@@ -6,7 +6,7 @@ namespace NuciText.Conversion.UnitTests
 {
     public sealed class NuciTextConverterTests
     {
-        private const string StringOfVariousCharacters = "​‌‍*[]`°´·ʹ–‘’”‡′″꞉＝̷̧̲̬̯̣̤̥̦̮̰̓́̀̆̂̌̊̈̋̃̇̄̍̒̐͘͡ᶻźŹžŽżŻẓẒƶƵʐǯþÞƿǷʔˀʼʾꞌʿΆγθΊΐΌΎχаАәёіІїјЈоџьᐋ";
+        private const string StringOfVariousCharacters = "​‌‍⁠*`°´·ʹˊ˥˧˩–‘’”‡′″꞉＝̶̷̧̲̬̯̣̤̦̮̰̱̓́̀̆̂̌̊̈̋̃̇̄̍̒̐͘͡ᶻźŹžŽżŻẓẒẔƶƵʐʒǯþÞƿǷʔˀʼʾꞌˤʿΆγθἰΊΐΌΎχаАәеӗёіІїјЈоҫӳџьᐋ";
         private const string Windows1252Characters = "_-–—,;:!¡?¿.…·'‘’‚‹›\"“”„«»()[]{}§¶@*/\\&#%‰†‡•`´˜^¯¨¸ˆ°©®+±÷×<=>¬|¦~¤¢$£¥€01¹½¼2²3³¾456789aAªáÁàÀâÂåÅäÄãÃæÆbBcCçÇdDðÐeEéÉèÈêÊëËfFƒgGhHiIíÍìÌîÎïÏjJkKlLmMnNñÑoOºóÓòÒôÔöÕøØœŒpPqQrRsSšŠßtT™uUúÚùÙûÛüÜvVwWxXyYýÝÿŸzZžŽþÞµ";
 
         private NuciTextConverter converter = new();
