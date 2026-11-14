@@ -16,7 +16,9 @@ Review verification used SDK 10.0.112 and `dotnet test --no-restore --verbosity 
 
 ## GitHub Actions
 
-The sole workflow is named `.NET`, runs on `ubuntu-latest`, and triggers on pushes and pull requests targeting `master`. It uses `actions/checkout@v2`, `actions/setup-dotnet@v1`, and SDK selector `10.0.x`, then restores, builds and tests in that order. It does not publish packages, upload test results, produce coverage, create releases or deploy a service.
+The validation workflow is named `.NET`, runs on `ubuntu-latest`, and triggers on pushes and pull requests targeting `master`. It uses `actions/checkout@v2`, `actions/setup-dotnet@v1`, and SDK selector `10.0.x`, then restores, builds and tests in that order. It does not publish packages, upload test results, produce coverage, create releases or deploy a service.
+
+The [Security workflow](../.github/workflows/security.yml) named `Security` also runs on `ubuntu-latest`; it triggers on pushes and pull requests targeting `master` plus a weekly schedule, lists vulnerable direct and transitive NuGet packages, runs CodeQL `init@v4` for `csharp`, builds, and runs CodeQL `analyze@v4`. It grants `security-events: write` only to that job.
 
 Action references and the runner image are not immutable pins. No conclusion about their present remote execution health follows from local tests.
 

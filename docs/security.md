@@ -27,4 +27,6 @@ The library performs no built-in external data transfer. However, the [Privacy p
 
 Production has no third-party package references. Test/tooling dependencies and GitHub actions still require maintenance; [Dependencies](./dependencies.md) lists declared versions. Local passing tests do not establish dependency vulnerability status or published package provenance.
 
+The [Security workflow](../.github/workflows/security.yml) adds automated scanning: `dotnet list package --vulnerable --include-transitive` reports known advisories for direct and transitive packages and fails nothing by itself, while CodeQL `init@v4` and `analyze@v4` for `csharp` upload SARIF results to GitHub Code Scanning. Automated findings do not replace manual review, and `dotnet list package --vulnerable` does not cover the GitHub action references themselves.
+
 Report suspected vulnerabilities through the private routes in the [Security policy](../SECURITY.md), not public issue examples containing sensitive input.

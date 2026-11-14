@@ -1,4 +1,7 @@
-[![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/fund.html) [![Build Status](https://github.com/hmlendea/nucitext.conversion/actions/workflows/dotnet.yml/badge.svg)](https://github.com/hmlendea/nucitext.conversion/actions/workflows/dotnet.yml) [![Latest Release](https://img.shields.io/github/v/release/hmlendea/nucitext.conversion)](https://github.com/hmlendea/nucitext.conversion/releases/latest)
+[![Donate](https://img.shields.io/badge/-%E2%99%A5%20Donate-%23ff69b4)](https://hmlendea.go.ro/fund.html)
+[![Build Status](https://github.com/hmlendea/nucitext.conversion/actions/workflows/dotnet.yml/badge.svg)](https://github.com/hmlendea/nucitext.conversion/actions/workflows/dotnet.yml)
+[![Security Scan](https://github.com/hmlendea/nucitext.conversion/actions/workflows/security.yml/badge.svg)](https://github.com/hmlendea/nucitext.conversion/actions/workflows/security.yml)
+[![Latest Release](https://img.shields.io/github/v/release/hmlendea/nucitext.conversion)](https://github.com/hmlendea/nucitext.conversion/releases/latest)
 
 # NuciText.Conversion
 
@@ -50,6 +53,15 @@ For the detailed description of how the application handles privacy and personal
 NuciText.Conversion follows a coordinated disclosure policy. Only the latest version distributed via NuGet receives security maintenance.
 
 For the full security policy, supported versions, and vulnerability reporting process, see [SECURITY.md](./SECURITY.md).
+
+## ⚙️ GitHub Actions
+
+| Workflow | Purpose | What it does |
+|----------|---------|--------------|
+| [ .NET ](https://github.com/hmlendea/nucitext.conversion/blob/master/.github/workflows/dotnet.yml) | Continuous integration | Restores, builds and tests the solution on `ubuntu-latest` with the .NET 10.0 SDK for pushes and pull requests targeting `master`. |
+| [ Security ](https://github.com/hmlendea/nucitext.conversion/blob/master/.github/workflows/security.yml) | Security scanning | Runs CodeQL analysis of the C# source, checks direct and transitive NuGet dependencies for known vulnerabilities, and publishes results to GitHub Code Scanning weekly and for pushes and pull requests targeting `master`. |
+| [ GitHub Release ](https://github.com/hmlendea/nucitext.conversion/blob/master/.github/workflows/github-release.yml) | Release publication | Packs the NuGet package, calculates its SHA256 checksum, and uploads the artefacts to the published GitHub Release. |
+| [ NuGet.org Release ](https://github.com/hmlendea/nucitext.conversion/blob/master/.github/workflows/nuget-release.yml) | Package publication | Packs the package and publishes it to NuGet.org through OIDC-authenticated login when a release is published. |
 
 ## 🏗️ Architecture
 

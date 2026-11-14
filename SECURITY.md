@@ -8,6 +8,7 @@ This document describes the security policy for NuciText.Conversion, including s
 - [Reporting a Vulnerability](#reporting-a-vulnerability)
 - [Scope](#scope)
 - [Disclosure Policy](#disclosure-policy)
+- [Automated Security Scanning](#automated-security-scanning)
 
 ## 🛡️ Supported Versions
 
@@ -47,3 +48,11 @@ This project follows coordinated disclosure:
 2. A remediation plan is prepared and validated.
 3. Public disclosure is published after a fix, mitigation, or agreed risk decision is available.
 4. Credit is attributed in accordance with reporter preference and project policy.
+
+## 🔍 Automated Security Scanning
+
+This repository runs automated security scans weekly, and on every push to and pull request against `master`. The scan includes:
+- **CodeQL code analysis** of the C# source and build, uploaded as SARIF results to GitHub Code Scanning.
+- **Vulnerable package detection** across direct and transitive NuGet dependencies.
+
+Results are published to the [Security](https://github.com/hmlendea/nucitext.conversion/security) tab and the [Actions](https://github.com/hmlendea/nucitext.conversion/actions/workflows/security.yml) workflow page.
