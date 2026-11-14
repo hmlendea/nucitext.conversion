@@ -9,6 +9,7 @@
 | [Test project](../NuciText.Conversion.UnitTests/NuciText.Conversion.UnitTests.csproj) | Test-only packages and production project reference; non-packable |
 | [Test source](../NuciText.Conversion.UnitTests/NuciTextConverterTests.cs) | Fixture is named `NuciText.Conversion.UnitTests.NameNormaliserTests`, despite the filename |
 | [CI workflow](../.github/workflows/dotnet.yml) | Restore/build/test on pushes and pull requests to `master` |
+| [Security workflow](../.github/workflows/security.yml) | NuGet vulnerability listing and CodeQL analysis on pushes and pull requests to `master`, plus a weekly schedule |
 | [Funding configuration](../.github/FUNDING.yml) | Repository funding metadata, not a runtime integration |
 | [Ignore rules](../.gitignore) | Generated build and editor artefacts |
 | [Root architecture](../ARCHITECTURE.md) | Structural documentation |
