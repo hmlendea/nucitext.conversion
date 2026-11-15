@@ -46,6 +46,7 @@
 
 - Converts text containing characters outside the Windows-1252 character set into close Windows-1252-compatible equivalents.
 - Applies an ordered transformation pipeline: common character mappings, Windows-1252 character mappings, and contextual regular-expression replacements.
+- Replaces any character that no mapping covers with `?` as a last resort, so every result is representable in Windows-1252.
 - Exposes a single synchronous contract through `INuciTextConverter` with a sealed implementation.
 - Caches conversion results per converter instance in a concurrent dictionary.
 - Returns blank input as an empty string without performing any substitution.
@@ -63,11 +64,11 @@ string result = converter.ToWindows1252("Český Krumlov");
 // result: "Cheský Krumlov"
 ```
 
-The method returns a .NET string. When Windows-1252 bytes are required, the host must select and apply that encoding and decide how unsupported output is handled.
+The method returns a .NET string. When Windows-1252 bytes are required, the host must select and apply that encoding; the result already contains only Windows-1252 characters.
 
 ## ⚠️ Known Limitations
 
-- Every output is not guaranteed to be representable in Windows-1252; unmapped characters survive and no final encoding check is performed.
+- Characters that no mapping covers are replaced with `?`, so information is lost silently and cannot be distinguished from literal question marks in the input.
 - Conversion is neither idempotent nor reversible, because lossy substitutions merge distinct originals and later pipeline stages can introduce characters whose mapping stage has already passed.
 - The result cache cannot be cleared or bounded through the public API; instance lifetime is the only available control.
 
@@ -191,7 +192,7 @@ The [repository knowledge base](./docs/INDEX.md) documents the implementation, o
 
 ## 🌐 API Reference
 
-See the [public API reference](./docs/api-reference/INDEX.md) for the synchronous converter contract, examples, and limitations. This library has no HTTP controllers or endpoints. It returns a Unicode string, not Windows-1252 bytes, and does not validate universal Windows-1252 representability.
+See the [public API reference](./docs/api-reference/INDEX.md) for the synchronous converter contract, examples, and limitations. This library has no HTTP controllers or endpoints. It returns a Unicode string, not Windows-1252 bytes, but constrains every result to the Windows-1252 character set.
 
 ## 🩺 Troubleshooting
 

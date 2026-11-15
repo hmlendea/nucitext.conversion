@@ -2,11 +2,11 @@
 
 ## Does The Method Return Windows-1252 Bytes?
 
-No. `NuciText.Conversion.INuciTextConverter.ToWindows1252` returns a .NET string. A host must separately encode it and choose fallback behavior. See [API reference](./api-reference/text-converter.md).
+No. `NuciText.Conversion.INuciTextConverter.ToWindows1252` returns a .NET string. A host must separately encode it; the returned text is already limited to Windows-1252 characters. See [API reference](./api-reference/text-converter.md).
 
 ## Is Every Output Guaranteed To Be Encodable?
 
-No. Unmapped characters survive and there is no final encoding check. Current tests cover examples and one output-set sample. See [Behaviour](./behaviour/text-conversion.md) and [Testing](./testing.md).
+Yes. A final fallback replaces every character outside the set with `?`, so the returned string is always representable in Windows-1252. The cost is silent loss of information, which cannot be distinguished from literal question marks. See [Behaviour](./behaviour/text-conversion.md) and [Testing](./testing.md).
 
 ## Is This ASCII Transliteration Or Unicode Normalization?
 

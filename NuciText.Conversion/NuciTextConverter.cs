@@ -12,6 +12,14 @@ namespace NuciText.Conversion
     {
         private readonly ConcurrentDictionary<string, string> windows1252Cache;
 
+        private static readonly HashSet<char> windows1252ExtendedCharacters =
+        [
+            '\u0192', '\u0160', '\u0152', '\u017D', '\u0161', '\u0153', '\u017E', '\u0178',
+            '\u02C6', '\u02DC', '\u2013', '\u2014', '\u2018', '\u2019', '\u201A', '\u201C',
+            '\u201D', '\u201E', '\u2020', '\u2021', '\u2022', '\u2026', '\u2030', '\u2039',
+            '\u203A', '\u20AC', '\u2122'
+        ];
+
         private static readonly Dictionary<char, string> commonCharacterMappings = new()
         {
             { 'А', "A" },
@@ -310,7 +318,8 @@ namespace NuciText.Conversion
         public NuciTextConverter() => windows1252Cache = new();
 
         /// <summary>
-        /// Converts the given text to Windows-1252 encoding, replacing characters that are not supported in that encoding with their closest equivalents.
+        /// Converts the given text to Windows-1252 encoding, replacing characters that are not supported in that encoding with their closest equivalents,
+        /// or with a question mark when no equivalent is available.
         /// </summary>
         /// <param name="text">The text to convert.</param>
         /// <returns>The converted text.</returns>
@@ -348,6 +357,9 @@ namespace NuciText.Conversion
                 .Replace("Ŏ̤", "Õ") // Maybe replace with "Eo"
                 .Replace("T̈", "T")
                 .Replace("ŏ̤", "õ"); // Maybe replace with "eo"
+
+            // Last resort: characters that no mapping covered
+            processedName = ReplaceUnsupportedCharacters(processedName);
 
             windows1252Cache.TryAdd(text, processedName);
 
@@ -509,6 +521,36 @@ namespace NuciText.Conversion
             processedName = Regex.Replace(processedName, "([‎‎])", ""); // Invisible characters
 
             return processedName;
+        }
+
+        private static bool IsWindows1252Character(char character)
+            => character <= '\u007F'
+            || (character >= '\u00A0' && character <= '\u00FF')
+            || windows1252ExtendedCharacters.Contains(character);
+
+        private static string ReplaceUnsupportedCharacters(string input)
+        {
+            StringBuilder stringBuilder = new(input.Length);
+
+            for (int index = 0; index < input.Length; index++)
+            {
+                char character = input[index];
+
+                if (char.IsHighSurrogate(character)
+                    && index + 1 < input.Length
+                    && char.IsLowSurrogate(input[index + 1]))
+                {
+                    // A surrogate pair represents a single character outside the BMP
+                    stringBuilder.Append('?');
+                    index++;
+
+                    continue;
+                }
+
+                stringBuilder.Append(IsWindows1252Character(character) ? character : '?');
+            }
+
+            return stringBuilder.ToString();
         }
 
         private static string ReplaceUsingMap(string input, Dictionary<char, string> map)

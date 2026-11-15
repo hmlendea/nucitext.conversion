@@ -161,6 +161,17 @@ namespace NuciText.Conversion.UnitTests
         public void WhenNormalisingForWindow1252_ReturnsTheNameWithoutCharsOutsideCharset(string name)
             => AssertCharsAreWithinCharset(converter.ToWindows1252(name), Windows1252Characters);
 
+        [Test]
+        [TestCase("汉", "?")]
+        [TestCase("X汉Y", "X?Y")]
+        [TestCase("😀", "?")]
+        [TestCase("a😀b", "a?b")]
+        [TestCase("漢字", "??")]
+        public void WhenNormalisingForWindow1252AndCharsAreNotMapped_ReplacesThemWithQuestionMarks(
+            string name,
+            string expectedResult)
+            => Assert.That(converter.ToWindows1252(name), Is.EqualTo(expectedResult));
+
         private static void AssertCharsAreWithinCharset(string text, string charset)
         {
             string actualCharset = charset + " ";

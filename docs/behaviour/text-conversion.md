@@ -32,11 +32,14 @@ See the exact [Flow](../flows/text-conversion.md) before changing rule order.
 
 ## Unsupported Input And Non-Guarantees
 
-The following conclusions come from the [Implementation](../../NuciText.Conversion/NuciTextConverter.cs), not dedicated executed regression cases:
-- Unmapped Han characters and most emoji pass through unchanged.
-- A terminal U+0120 can remain outside Windows-1252 because its regex requires a following non-`h` character.
-- `a\u030D` first becomes U+0227 after the common-map pass. It survives the first call, but a second conversion maps U+0227 to U+00E1. Thus conversion is not globally idempotent.
-- `v\u0303` can become U+1E7D, which is not in the target map; the combining-mark removal stage no longer sees a separate tilde.
-- Decomposed and precomposed spellings can differ: only selected compositions exist, and no general Unicode normalization call runs.
+A final allowlist pass, `NuciText.Conversion.NuciTextConverter.ReplaceUnsupportedCharacters`, runs after every other rule. It accepts ASCII, Latin-1 (`U+00A0`-`U+00FF`), and the 27 characters Windows-1252 reassigns in place of the `U+0080`-`U+009F` control range; every other code unit becomes `?`. A surrogate pair is emitted as a single `?`.
 
-Do not infer encodability, collision resistance, reversibility, spoofing protection or linguistic correctness from a successful return. See [Invariants](../invariants.md) and [Security](../security.md).
+The following conclusions come from the [Implementation](../../NuciText.Conversion/NuciTextConverter.cs), not dedicated executed regression cases:
+- Unmapped Han characters and emoji become `?`; nothing survives the last pass.
+- A terminal U+0120 becomes `?` because its regex requires a following non-`h` character and no mapping entry covers it.
+- `a\u030D` first becomes U+0227 after the common-map pass and then becomes `?`; a second conversion also yields `?`. Thus conversion is not globally idempotent.
+- `v\u0303` can become U+1E7D, which is not in the target map, and is then replaced with `?`.
+- Decomposed and precomposed spellings can differ: only selected compositions exist, and no general Unicode normalization call runs.
+- The fallback cannot distinguish an unmapped character from a literal `?` in the input, and neighbouring characters may be unrelated to the replaced one.
+
+Do not infer collision resistance, reversibility, spoofing protection or linguistic correctness from a successful return. See [Invariants](../invariants.md) and [Security](../security.md).

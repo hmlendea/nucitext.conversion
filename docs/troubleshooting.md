@@ -2,7 +2,7 @@
 
 ## Output Cannot Be Encoded As Windows-1252
 
-Inspect the exact output code points, not only rendered glyphs. `NuciText.Conversion.NuciTextConverter.ReplaceUsingMap` preserves unknown code units and final output is not checked by an encoder. A terminal U+0120, unmapped Han text or newly composed U+1E7D can survive. Apply strict host-side encoding validation; do not silently replace unknown characters unless that is your intended policy. See [Behaviour](./behaviour/text-conversion.md).
+Inspect the exact output code points, not only rendered glyphs. `NuciText.Conversion.NuciTextConverter.ReplaceUnsupportedCharacters` replaces every character outside ASCII, Latin-1 and the 27 reassigned `U+0080`-`U+009F` positions with `?`. Unmapped Han text, emoji, newly composed U+1E7D and a terminal U+0120 all become `?`. See [Behaviour](./behaviour/text-conversion.md).
 
 ## Similar-Looking Inputs Produce Different Results
 

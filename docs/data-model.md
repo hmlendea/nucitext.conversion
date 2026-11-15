@@ -18,7 +18,7 @@ There are no domain entities, DTOs, database schemas, serializers or identifiers
 
 Many originals can produce the same output; there is no uniqueness constraint on result values. Cache identity is exact original string equality, not visual equality or normalized Unicode equivalence. A map can produce multiple letters, accented characters or apostrophe-bearing sequences. A later stage may map or delete part of an earlier result.
 
-The table helper iterates `char`, not `Rune` or grapheme clusters. A supplementary scalar spans two iterations unless a later full-string/regex rule recognizes its sequence. Unrecognized code units are preserved, including potentially malformed surrogate sequences. No general normalization or validity check is performed.
+The table helper iterates `char`, not `Rune` or grapheme clusters. A supplementary scalar spans two iterations unless a later full-string/regex rule recognizes its sequence. Unrecognized code units are preserved by the map passes, including potentially malformed surrogate sequences, then the final fallback emits `?` per character or per recognized surrogate pair. No general normalization or validity check is performed.
 
 ## Lifecycle And Persistence
 
