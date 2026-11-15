@@ -2,7 +2,7 @@
 
 ## Observed Verification
 
-On 2026-10-23, SDK 10.0.112 executed `dotnet test --no-restore --verbosity minimal` successfully: 130 tests passed, zero failed and zero skipped. Both projects built. Existing restore assets were used; clean online restore, remote CI and package publication were not independently exercised.
+On 2026-11-15, `dotnet test NuciText.Conversion.sln --nologo` succeeded: 142 unit tests and 4 architecture tests passed, zero failed and zero skipped. Both projects built. Clean online restore, remote CI and package publication were not independently exercised.
 
 The authoritative files are [Test source](../NuciText.Conversion.UnitTests/NuciTextConverterTests.cs) and [Test project](../NuciText.Conversion.UnitTests/NuciText.Conversion.UnitTests.csproj). The fixture is `NuciText.Conversion.UnitTests.NameNormaliserTests`.
 
@@ -10,7 +10,8 @@ The authoritative files are [Test source](../NuciText.Conversion.UnitTests/NuciT
 
 | Area | Current evidence | Limit |
 |---|---|---|
-| Exact conversions | 129 parameterized expected-output cases | Representative examples, not every rule or input |
+| Exact conversions | 136 parameterized expected-output cases | Representative examples, not every rule or input |
+| Unmapped-character fallback | 5 exact cases for Han and supplementary characters | Not an exhaustive encoding table |
 | Contextual phi-like symbol | Beginning-of-word and internal symbol examples | Not exhaustive Unicode word-boundary cases |
 | Suffixes and combining marks | Named examples for suffixes, R/H marks, joiners and accents | Not all normalization equivalents or stage interactions |
 | Output character set | One mixed-character input and hand-written allowlist | Not a strict encoder and not universal input coverage |

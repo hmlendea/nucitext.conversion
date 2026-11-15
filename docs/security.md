@@ -4,7 +4,7 @@ The [Root security policy](../SECURITY.md) governs supported versions, vulnerabi
 
 ## Trust Boundary
 
-The caller supplies arbitrary strings to `NuciText.Conversion.INuciTextConverter.ToWindows1252`. The library performs no authentication, authorisation, file access, networking or code execution. Fixed source regex patterns are not caller-provided patterns. Unknown characters are not rejected.
+The caller supplies arbitrary strings to `NuciText.Conversion.INuciTextConverter.ToWindows1252`. The library performs no authentication, authorisation, file access, networking or code execution. Fixed source regex patterns are not caller-provided patterns. Unsupported characters are not rejected; they are replaced with `?`, which merges distinct inputs.
 
 ## Threats And Practical Controls
 
@@ -12,7 +12,7 @@ The caller supplies arbitrary strings to `NuciText.Conversion.INuciTextConverter
 |---|---|---|
 | Memory growth from many distinct inputs | Unbounded original-to-output instance cache | Limit input size/cardinality and select bounded instance lifetime |
 | Sensitive data retention | Original text is stored as cache key | Avoid unnecessarily long-lived instances for sensitive workloads; do not promise secure erasure |
-| Encoding mismatch | Unknown code units pass through | Validate with the actual strict target encoder |
+| Encoding mismatch | Unsupported code units become `?` | Validate with the actual strict target encoder |
 | Identifier collisions and spoofing | Lossy maps merge script lookalikes and delete marks | Do not use output as an authentication identity, uniqueness proof or security canonical form |
 | Injection into downstream formats | No escaping or validation stage | Apply context-specific escaping/validation at the output boundary |
 | Resource consumption | Many passes, intermediate allocations, no input limit or explicit regex timeout | Apply workload limits; benchmark real inputs before high-volume sharing |

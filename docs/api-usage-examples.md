@@ -27,14 +27,14 @@ string blank = converter.ToWindows1252(" \t\n");
 // string.Empty: blank guard runs before cache lookup.
 
 string unknown = converter.ToWindows1252("\u4E2D");
-// "\u4E2D": no rule removes or maps this character.
+// "?": no rule maps this character, so the final fallback replaces it.
 
 string terminal = converter.ToWindows1252("\u0120");
-// "\u0120": contextual G-with-dot rules need a following character.
+// "?": contextual G-with-dot rules need a following character.
 ```
 
-These examples are reasoned from the rule tables and patterns, not cases in the current test suite. They show why hosts must validate actual encodability separately. See [Open questions](./ambiguities-and-open-questions.md) for missing regression coverage.
+These examples are reasoned from the rule tables and patterns, not cases in the current test suite. The fallback guarantees representability but silently discards information. See [Open questions](./ambiguities-and-open-questions.md) for missing regression coverage.
 
 ## Byte Encoding Boundary
 
-After conversion, select a Windows-1252 encoder in the host if bytes are required. Provider availability depends on the consuming application; this package neither references a code-page provider package nor registers one. Prefer strict fallback during validation so unconverted characters cause an observable failure instead of silent question-mark replacement. No byte-encoding example is claimed as an exercised repository integration.
+After conversion, select a Windows-1252 encoder in the host if bytes are required. Provider availability depends on the consuming application; this package neither references a code-page provider package nor registers one. Output is already limited to that character set by the final `?` fallback, so strict and replacement fallbacks encode it identically. No byte-encoding example is claimed as an exercised repository integration.

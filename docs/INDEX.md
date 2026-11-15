@@ -1,6 +1,6 @@
 # Repository Knowledge Base
 
-NuciText.Conversion is a synchronous .NET 10 library that applies ordered, lossy text substitutions intended for Windows-1252-oriented consumers. It accepts and returns Unicode strings, caches results per converter instance, and has no application host, HTTP API, storage service, or runtime external integration. These documents explain actual execution and its limits rather than promising universal Windows-1252 representability.
+NuciText.Conversion is a synchronous .NET 10 library that applies ordered, lossy text substitutions for Windows-1252-oriented consumers. It accepts and returns Unicode strings, caches results per converter instance, and has no application host, HTTP API, storage service, or runtime external integration. A final fallback replaces unmapped characters with `?`, so results are always representable in Windows-1252 at the cost of silent loss.
 
 ## Start Here
 

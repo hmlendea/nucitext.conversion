@@ -15,7 +15,6 @@ namespace NuciText.Conversion.UnitTests
         public void SetUp() => converter = new();
 
         [Test]
-        [TestCase("Â-ngì-pî-sṳ̂ sân", "Â-ngì-pî-sû sân")]
         [TestCase("Ab‌khajiyā", "Abkhajiyã")]
         [TestCase("Aǧīm", "Ajïm")]
         [TestCase("Aḫmīm", "Akhmïm")]
@@ -34,6 +33,8 @@ namespace NuciText.Conversion.UnitTests
         [TestCase("Anwākšūṭ", "Anwãkšüt")]
         [TestCase("Aṗsny", "Apsny")]
         [TestCase("Åsele", "Åsele")]
+        [TestCase("Â-ngì-pî-sṳ̂ sân", "Â-ngì-pî-sû sân")]
+        [TestCase("Â-ngì-pî-sṳ̂ sân", "Â-ngì-pî-sû sân")]
         [TestCase("Bāḇel", "Bãbel")]
         [TestCase("Basileia Rhṓmaiṓn", "Basileia Rhõmaiõn")]
         [TestCase("Bạt Đế Mỗ", "Bat Ðê Mô")]
@@ -48,11 +49,12 @@ namespace NuciText.Conversion.UnitTests
         [TestCase("Cetiǌe", "Cetinje")]
         [TestCase("Chęciny", "Checiny")]
         [TestCase("Đakovo", "Ðakovo")]
-        [TestCase("Đặng Khẩu", "Ðãng Khâu")]
         [TestCase("Danmǫrk", "Danmörk")]
-        [TestCase("پwyrṭūrīkū", "Bwyrtürïkü")]
         [TestCase("Dasavleti Virǯinia", "Dasavleti Viržinia")]
+        [TestCase("Đặng Khẩu", "Ðãng Khâu")]
+        [TestCase("Đặng Khẩu", "Ðãng Khâu")]
         [TestCase("Đế quốc Nga", "Ðê quôc Nga")]
+        [TestCase("Dneṗroṗeṭrovsḳi", "Dnepropetrovski")]
         [TestCase("Dobřany", "Dobrzany")]
         [TestCase("Dᶻidᶻəlal̓ič", "Dzidzalalich")]
         [TestCase("Egeyan Kġziner", "Egeyan Kghziner")]
@@ -113,6 +115,7 @@ namespace NuciText.Conversion.UnitTests
         [TestCase("Ɔsɩloo", "Osiloo")]
         [TestCase("Perejäslavľĭ", "Perejäslavlï")]
         [TestCase("Permė", "Permé")]
+        [TestCase("Ṗerti", "Perti")]
         [TestCase("Phin‌sṭrām", "Phinstrãm")]
         [TestCase("P‍ṭiyuj", "Ptiyuj")]
         [TestCase("Purūkḷiṉ", "Purüklin")]
@@ -137,13 +140,17 @@ namespace NuciText.Conversion.UnitTests
         [TestCase("Tłnáʔəč", "Tlná´ach")]
         [TestCase("Ṭ‍renṭō", "Trentõ")]
         [TestCase("Truǧālẗ", "Trujãlah")]
+        [TestCase("Turanĝio", "Turangio")]
         [TestCase("Užhorod", "Užhorod")]
         [TestCase("Vialikaja Poĺšča", "Vialikaja Polšcha")]
         [TestCase("Vюrцby’rg", "Viurcby’rg")]
         [TestCase("Ẇel‌ś‌", "Wels")]
         [TestCase("Вуллонгонг", "Vullongong")]
         [TestCase("Эstoniья", "Estoni'ia")]
+        [TestCase("Эstoniья", "Estoni'ia")]
         [TestCase("Юli’h", "Iuli’h")]
+        [TestCase("پwyrṭūrīkū", "Bwyrtürïkü")]
+        [TestCase("پwyrṭūrīkū", "Bwyrtürïkü")]
         public void WhenNormalisingForWindow1252_ReturnsTheExpectedNormalisedName(
             string name,
             string expectedResult)
@@ -153,6 +160,17 @@ namespace NuciText.Conversion.UnitTests
         [TestCase(StringOfVariousCharacters)]
         public void WhenNormalisingForWindow1252_ReturnsTheNameWithoutCharsOutsideCharset(string name)
             => AssertCharsAreWithinCharset(converter.ToWindows1252(name), Windows1252Characters);
+
+        [Test]
+        [TestCase("汉", "?")]
+        [TestCase("X汉Y", "X?Y")]
+        [TestCase("😀", "?")]
+        [TestCase("a😀b", "a?b")]
+        [TestCase("漢字", "??")]
+        public void WhenNormalisingForWindow1252AndCharsAreNotMapped_ReplacesThemWithQuestionMarks(
+            string name,
+            string expectedResult)
+            => Assert.That(converter.ToWindows1252(name), Is.EqualTo(expectedResult));
 
         private static void AssertCharsAreWithinCharset(string text, string charset)
         {

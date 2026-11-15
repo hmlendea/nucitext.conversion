@@ -23,7 +23,8 @@ The method is synchronous. It has no cancellation token, async counterpart, stre
 ## Output And Failure Contract
 
 - Output is a .NET Unicode string, not an encoded byte array.
-- Unknown characters may remain; Windows-1252 encodability is not validated.
+- A final allowlist pass replaces any character that is neither ASCII (`U+0000`-`U+007F`) nor Latin-1 (`U+00A0`-`U+00FF`) nor one of the 27 characters Windows-1252 reassigns in place of the `U+0080`-`U+009F` control range with `?`. A supplementary code point, such as an emoji, becomes one `?`, not two.
+- Because of that fallback the output is always representable in Windows-1252, but the substitution is lossy and cannot be detected from the result.
 - Substitutions can expand, delete or change case; the conversion is lossy and not reversible.
 - A blank result can mean blank input or removal of all characters; no status distinguishes them.
 - No custom exception, result envelope, retry or fallback boundary exists. Runtime exceptions propagate.
@@ -37,4 +38,4 @@ Concurrent calls use a concurrent cache and local intermediate strings/builders;
 
 ## Tests
 
-The [Test source](../../NuciText.Conversion.UnitTests/NuciTextConverterTests.cs) exercises the concrete implementation, not an alternative interface implementation. It verifies 129 exact-output examples and one output-set sample; it does not directly verify null, whitespace, cache hits or concurrent callers. See [Testing](../testing.md).
+The [Test source](../../NuciText.Conversion.UnitTests/NuciTextConverterTests.cs) exercises the concrete implementation, not an alternative interface implementation. It verifies 136 exact-output examples plus five fallback cases for unmapped Han and supplementary characters, and one output-set sample; it does not directly verify null, whitespace, cache hits or concurrent callers. See [Testing](../testing.md).

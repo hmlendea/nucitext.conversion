@@ -26,7 +26,7 @@ string result = converter.ToWindows1252("\u010Cesk\u00FD Krumlov");
 // result: "Chesk\u00FD Krumlov"
 ```
 
-The expected value is covered by a repository regression case. The result is still a .NET string. If a file or protocol needs Windows-1252 bytes, the host must separately select that encoding and decide how to handle unsupported output. The converter does not register an encoding provider.
+The expected value is covered by a repository regression case. The result is still a .NET string. If a file or protocol needs Windows-1252 bytes, the host must separately select that encoding; the converter does not register an encoding provider, but its final `?` fallback already restricts output to that character set.
 
 ## Before Production Use
 

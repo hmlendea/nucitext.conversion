@@ -20,10 +20,11 @@ All steps occur synchronously in [NuciTextConverter.cs](../../NuciText.Conversio
 | 6 | Regex `[a]*[\u1E97]` to `ah` | Consumes zero or more consecutive ASCII a characters followed by t-with-diaeresis |
 | 7 | Regex `[\u0121]([^h])` to `gh$1` | Lowercase contextual counterpart; matching consumes the following character |
 | 8 | Exact dotted-G-plus-h reductions, J-plus-caron, selected O-plus-mark and T-plus-diaeresis replacements | Last cleanup sees already-mapped output, so some original-sequence patterns can no longer match |
-| 9 | `windows1252cache.TryAdd(text, processedName)` | Publishes original-to-final result without replacing an existing entry |
-| 10 | Return local result | A failed `TryAdd` due to another writer does not fail conversion |
+| 9 | `NuciText.Conversion.NuciTextConverter.ReplaceUnsupportedCharacters` | Last resort: every character outside ASCII, Latin-1 and the 27 reassigned `U+0080`-`U+009F` positions becomes `?`; a surrogate pair yields one `?` |
+| 10 | `windows1252cache.TryAdd(text, processedName)` | Publishes original-to-final result without replacing an existing entry |
+| 11 | Return local result | A failed `TryAdd` due to another writer does not fail conversion |
 
-There is no final encoder check, output allowlist, Unicode normalization or recursive rerun. A return means the substitutions completed, not that an encoding constraint was proven.
+There is no Unicode normalization or recursive rerun. A return means the substitutions completed and the output is Windows-1252 representable, at the cost of silent loss for characters no rule covered.
 
 ## Common Replacement Subflow
 

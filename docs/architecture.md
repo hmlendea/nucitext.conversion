@@ -12,7 +12,7 @@ The canonical structural account is the [Root architecture](../ARCHITECTURE.md).
 
 ## Architectural Consequences Of Local Details
 
-- `NuciText.Conversion.NuciTextConverter.ReplaceUsingMap` preserves unknown UTF-16 code units. Consequently a successful method return is not proof that strict Windows-1252 byte encoding will succeed.
+- `NuciText.Conversion.NuciTextConverter.ReplaceUsingMap` preserves unknown UTF-16 code units; the later `NuciText.Conversion.NuciTextConverter.ReplaceUnsupportedCharacters` pass replaces anything outside Windows-1252 with `?`, so every successful return is strictly encodable but lossy.
 - `NuciText.Conversion.NuciTextConverter.ApplyCommonReplacements` is a single ordered pass, not a fixed-point normalization algorithm. A character introduced after its mapping stage can survive and change on a later invocation.
 - The cache key is the original input, not an intermediate or final string. Equivalent-looking inputs occupy different entries, while a cache hit bypasses every replacement stage.
 - The private dictionaries are read-only by usage, not immutable collection types. Their safe concurrent use depends on preserving the no-mutation convention.

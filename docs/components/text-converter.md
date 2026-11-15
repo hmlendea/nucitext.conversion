@@ -4,7 +4,7 @@
 
 `NuciText.Conversion.NuciTextConverter` owns all production transformation logic and instance state in [NuciTextConverter.cs](../../NuciText.Conversion/NuciTextConverter.cs). Its [Interface](../../NuciText.Conversion/INuciTextConverter.cs) is the consumer contract, but there is only one implementation and no internal composition framework. The [Tests](../../NuciText.Conversion.UnitTests/NuciTextConverterTests.cs) construct the concrete type directly.
 
-The component does not own decoding, byte encoding, file I/O, logging, configuration loading or validation of a complete output character set.
+The component does not own decoding, byte encoding, file I/O, logging, configuration loading or validation of a complete output character set beyond its own final `?` fallback.
 
 ## Internal Responsibilities
 
@@ -13,6 +13,8 @@ The component does not own decoding, byte encoding, file I/O, logging, configura
 | `NuciText.Conversion.NuciTextConverter.ToWindows1252` | Original string to final string | Blank guard, cache lookup, ordered pipeline, cache publication |
 | `NuciText.Conversion.NuciTextConverter.ApplyCommonReplacements` | Intermediate string to intermediate string | Shared mappings, sequence substitutions, selected diacritic composition/removal and punctuation cleanup |
 | `NuciText.Conversion.NuciTextConverter.ReplaceUsingMap` | String plus `Dictionary<char, string>` to string | Single UTF-16-code-unit scan, expanding known keys and preserving unknown keys |
+| `NuciText.Conversion.NuciTextConverter.ReplaceUnsupportedCharacters` | Intermediate string to final string | Replaces every non-Windows-1252 character with `?`, pairing surrogates |
+| `NuciText.Conversion.NuciTextConverter.IsWindows1252Character` | `char` to boolean | ASCII, Latin-1 and the 27 reassigned `U+0080`-`U+009F` positions |
 | `NuciText.Conversion.NuciTextConverter.CommonCharacterMappings` | `char` to string entries | Script lookalikes, digraphs, detached apostrophes and reduced secondary accents |
 | `NuciText.Conversion.NuciTextConverter.Windows1252CharacterMappings` | `char` to string entries | Target-oriented approximation of selected remaining characters |
 | `NuciText.Conversion.NuciTextConverter.windows1252cache` | Original string to final string entries | Memoisation for instance lifetime |

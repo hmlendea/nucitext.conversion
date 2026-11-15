@@ -6,7 +6,8 @@ namespace NuciText.Conversion
     public interface INuciTextConverter
     {
         /// <summary>
-        /// Converts the given text to Windows-1252 encoding, replacing characters that are not supported in that encoding with their closest equivalents.
+        /// Converts the given text to Windows-1252 encoding, replacing characters that are not supported in that encoding with their closest equivalents,
+        /// or with a question mark when no equivalent is available.
         /// </summary>
         /// <param name="text">The text to convert.</param>
         /// <returns>The converted text.</returns>

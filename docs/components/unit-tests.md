@@ -10,7 +10,9 @@ The sole [Test source](../../NuciText.Conversion.UnitTests/NuciTextConverterTest
 
 `NuciText.Conversion.UnitTests.NameNormaliserTests.SetUp` creates a fresh `NuciText.Conversion.NuciTextConverter` before every case. Therefore cache entries are not shared across cases.
 
-`NuciText.Conversion.UnitTests.NameNormaliserTests.WhenNormalisingForWindow1252_ReturnsTheExpectedNormalisedName` receives 129 input/expected pairs and asserts exact string equality. Examples cover digraph expansion, selected script substitutions, joiner removal, combining marks, suffixes and preserved Latin characters.
+`NuciText.Conversion.UnitTests.NameNormaliserTests.WhenNormalisingForWindow1252_ReturnsTheExpectedNormalisedName` receives 136 input/expected pairs and asserts exact string equality. Examples cover digraph expansion, selected script substitutions, joiner removal, combining marks, suffixes and preserved Latin characters.
+
+`NuciText.Conversion.UnitTests.NameNormaliserTests.WhenNormalisingForWindow1252AndCharsAreNotMapped_ReplacesThemWithQuestionMarks` adds five exact pairs covering unmapped Han characters, a supplementary emoji code point and mixed mapped/unmapped text.
 
 `NuciText.Conversion.UnitTests.NameNormaliserTests.WhenNormalisingForWindow1252_ReturnsTheNameWithoutCharsOutsideCharset` converts one `StringOfVariousCharacters` sample. Its helper, `NuciText.Conversion.UnitTests.NameNormaliserTests.TestCharsNotOutsideSet`, concatenates characters absent from `Windows1252Characters` plus ASCII space, treats a whitespace-only mismatch string as empty, then asserts emptiness.
 

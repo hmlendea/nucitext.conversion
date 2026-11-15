@@ -8,7 +8,7 @@ Source: `NuciText.Conversion.NuciTextConverter.ToWindows1252` and `NuciText.Conv
 |---|---|---|
 | Null, empty or whitespace-only public input | Empty string | No cache access, exception or warning |
 | Cache miss | Full conversion | Not considered an error |
-| Unknown character | Preserved unless another explicit rule matches | No unsupported-character report |
+| Unknown character | Replaced with `?` by the final fallback unless another explicit rule matches | No unsupported-character report |
 | Concurrent insertion loses to another caller | Local converted string still returned | `TryAdd` false is ignored |
 | Private map helper receives null | Null | Not reachable from ordinary public flow after the blank guard |
 | Runtime operation throws | Exception escapes | No translation, logging, retry or partial return |
@@ -23,7 +23,7 @@ An exception before cache insertion leaves no completed result for that input. A
 
 ## Host Boundary
 
-Conversion success does not validate Windows-1252 representability. A subsequent strict encoder can reject preserved output; that failure belongs to the host's encoding step, not a library-defined exception contract. Lossy conversion can also collapse distinct inputs without signaling an error.
+Conversion completes without reporting loss. Unsupported characters are replaced with `?`, so the result is always Windows-1252 representable but silent data loss occurs and cannot be distinguished from literal question marks. Lossy conversion can also collapse distinct inputs without signaling an error.
 
 Hosts should apply size limits and validation appropriate to their domain, choose encoding fallback explicitly, and protect diagnostics from sensitive text. See [Security](./security.md), [Logging](./logging.md) and [Troubleshooting](./troubleshooting.md).
 

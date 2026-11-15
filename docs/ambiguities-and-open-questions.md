@@ -6,7 +6,7 @@
 |---|---|---|
 | Privacy statement denies cache storage | [Privacy policy](../PRIVACY.md) says no storage in caches; [Implementation](../NuciText.Conversion/NuciTextConverter.cs) retains original/result pairs | Root policy and its corresponding README section need coordinated template-aware correction |
 | Blank behavior described as tested | [Root architecture](../ARCHITECTURE.md) says tests cover blank-input behavior; [Tests](../NuciText.Conversion.UnitTests/NuciTextConverterTests.cs) have no null/empty/whitespace cases | Correct root coverage statement or add dedicated tests in a behavior-focused change |
-| Output target can read as universal guarantee | Interface XML comments and root purpose describe Windows-1252 conversion; helper preserves unknown code units and never encodes | Define whether the contract is finite approximation or guaranteed representability |
+| Output target can read as universal guarantee | Interface XML comments and root purpose describe Windows-1252 conversion; a final fallback replaces unsupported characters with `?`, which is lossy and unmarked | Define whether silent loss is acceptable or a report is required |
 | Cache verification can read as direct test coverage | Root compatibility table refers to behavioral tests and inspection; fixture resets instance per case and never repeats a call | Add dedicated cache tests or explicitly qualify coverage |
 
 Root documents are left unchanged by this documentation addition; these are tracked discrepancies, not silently repaired implementation defects.
